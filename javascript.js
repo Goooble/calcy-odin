@@ -3,8 +3,9 @@ let secondNumber;
 let operator;
 let panelFontSize = 50;
 let displayNumContainer = [];
-let operatorPressed = false;
+let operatorPressed = -1; //initially not allowed
 let operatorIndex;
+let operable = false;
 
 const numberPanel = document.querySelector(".number-panel");
 const buttonCont = document.querySelector(".button-container");
@@ -14,35 +15,46 @@ buttonCont.addEventListener("click", (e) => {
   let buttonPressed = e.target.className;
   if (buttonPressed === "number-button") {
     displayValue(displayNumContainer, e);
+    if (operatorPressed === true) {
+      //after a digit of second number is pressed
+      operable = true;
+    }
+    operatorPressed = false;
   }
 
   if (buttonPressed === "operator-button") {
-    if (!operatorPressed) {
-      operatorPressed = true;
-      firstNumber = +displayNumContainer.join("");
-      operatorIndex = displayNumContainer.length;
-      displayValue(displayNumContainer, e);
-      console.log(firstNumber);
+    //once an operator is pressed, first number is stored and value is displayed
+    if (operatorPressed === false) {
+      //only pressed after one number and two numbers(calculates)
+      if (operable === true) {
+        //if its after two numbers, it calculates
+        calculate();
+      } else {
+        operatorPressed = true;
+        firstNumber = +displayNumContainer.join("");
+        operatorIndex = displayNumContainer.length;
+        displayValue(displayNumContainer, e);
+      }
     }
   }
 
   if (buttonPressed === "equal-button") {
-    secondNumber = +displayNumContainer.slice(operatorIndex+1).join("");
-    numberPanel.textContent = operate(firstNumber, secondNumber, displayNumContainer[operatorIndex]);
-    console.log(operatorIndex);
+    if (operable) {
+      calculate();
+    }
   }
 
-  if(buttonPressed === "clear"){
+  if (buttonPressed === "clear") {
     displayNumContainer = [];
     numberPanel.textContent = "";
     firstNumber = null;
     secondNumber = null;
     operatorIndex = null;
-    operatorPressed = false;
+    operatorPressed = -1;
     panelFontSize = 50;
     displayRestrainer();
-
-  } 
+    operable = false;
+  }
 });
 
 //display array updates here
@@ -59,7 +71,21 @@ function displayRestrainer() {
   numberPanel.style.fontSize = `${panelFontSize}px`;
 }
 
+function calculate() {
+  secondNumber = +displayNumContainer.slice(operatorIndex + 1).join("");
+  let result = operate(
+    firstNumber,
+    secondNumber,
+    displayNumContainer[operatorIndex]
+  );
+  numberPanel.textContent = result;
+  operatorPressed = false; //enables to chain operations
+  operable = false; //basically clean state = disables equalling teh result with lack of a second number and operator
+  displayNumContainer = [];
+  displayNumContainer[0] = result;
+}
 function operate(num1, num2, op) {
+  
   let result;
   switch (op) {
     case "+":
@@ -75,7 +101,7 @@ function operate(num1, num2, op) {
       result = divide(num1, num2);
       break;
   }
-  return Math.round(result*1000)/1000;
+  return Math.round(result * 1000) / 1000;
 }
 
 function add(a, b) {

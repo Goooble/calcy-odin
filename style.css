@@ -8,8 +8,8 @@ body {
 }
 .container {
     background-color: antiquewhite;
-    width: 30vw;
-    height: 90vh;
+    width: 500px;
+    height: 650px;
     margin: auto;
     border-radius: 20px;
     padding: 20px;
@@ -32,10 +32,6 @@ body {
 
 }
 
-.number-panel{
-   
-
-}
 .button-container {
     text-align: center;
     vertical-align: center;
@@ -46,6 +42,7 @@ body {
     flex-flow: column nowrap;
     margin: 0px auto;
     justify-content: space-between;
+    user-select: none;
 
 }
 
@@ -69,7 +66,6 @@ body {
     box-shadow: 3px 3px rgb(110, 65, 65);
     border: 2px double rgb(110, 65, 65);
 }
-
 
 
 .number-grid{
