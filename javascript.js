@@ -2,6 +2,7 @@ let firstNumber;
 let secondNumber;
 let operator;
 let displayNumContainer = [];
+let panelFontSize = 50;
 const numberPanel = document.querySelector('.number-panel')
 const numberGrid = document.querySelector('.number-grid');
 numberGrid.addEventListener('click', (e) => {
@@ -17,7 +18,10 @@ function displayValue(array){
 }
 
 function displayRestrainer(){
-    
+  if(numberPanel.offsetWidth >= 230){
+    panelFontSize -= 4;
+    numberPanel.style.fontSize =  `${(panelFontSize)}px`;
+  }
 }
 
 function operate(num1, num2, op) {
