@@ -54,7 +54,7 @@ body {
     align-items: center;
 }
 
-.removal-container div{
+.removal-container button{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,7 +79,7 @@ body {
     flex-flow: row wrap;
 }
 
-.number-grid div{
+.number-grid button{
     display: flex;
     justify-content: center;
     align-items: center;
