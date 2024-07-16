@@ -1,0 +1,106 @@
+
+*{
+    box-sizing: border-box;
+}
+body {
+    background-color: rgb(100, 105, 105);
+    font-family: 'Courier New', Courier, monospace;
+}
+.container {
+    background-color: antiquewhite;
+    width: 30vw;
+    height: 90vh;
+    margin: auto;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.display {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color:rgb(0, 255, 170);
+    width: 100%;
+    height:25%;
+    border-radius: 20px;
+    margin:0px auto ;
+    padding: 10px 15px;
+
+}
+
+.number-panel{
+    font-size: 50px;
+
+}
+.button-container {
+    text-align: center;
+    vertical-align: center;
+    padding: 10px;
+    height: 75%;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0px auto;
+    justify-content: space-between;
+
+}
+
+.removal-container {
+    display:flex;
+    width:100%;
+    height: 18%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.removal-container div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px; 
+    width:49%;
+    background-color: rgb(255, 150, 150);
+    border-radius: 10%;
+    padding-top: 8px;
+}
+
+
+
+.number-grid{
+    
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: center;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.number-grid div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px; 
+    height: 21%;
+    width: 22%;
+    border-radius:10% ;
+    line-height: 10%;
+    padding-top: 8px;
+}
+
+.operator-button {
+    background-color: rgb(255, 150, 150);
+}
+
+.number-button {
+    background-color: rgb(160, 150, 255);
+}
+
+.equal-button {
+    background-color: rgb(43, 40, 68);
+    color: white;
+}
+.decimal-button{
+    background-color: rgb(160, 150, 255);
+}
