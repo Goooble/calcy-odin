@@ -1,21 +1,22 @@
 let firstNumber;
 let secondNumber;
 let operator;
-let displayNumContainer = [];
 let panelFontSize = 50;
+let displayNumContainer = [];
 let operatorPressed = false;
 let operatorIndex;
 
 const numberPanel = document.querySelector(".number-panel");
-const numberGrid = document.querySelector(".number-grid");
+const buttonCont = document.querySelector(".button-container");
 const displayPanel = document.querySelector(".display");
 
-numberGrid.addEventListener("click", (e) => {
-  if (e.target.className === "number-button") {
+buttonCont.addEventListener("click", (e) => {
+  let buttonPressed = e.target.className;
+  if (buttonPressed === "number-button") {
     displayValue(displayNumContainer, e);
   }
 
-  if (e.target.className === "operator-button") {
+  if (buttonPressed === "operator-button") {
     if (!operatorPressed) {
       operatorPressed = true;
       firstNumber = +displayNumContainer.join("");
@@ -25,11 +26,23 @@ numberGrid.addEventListener("click", (e) => {
     }
   }
 
-  if (e.target.className === "equal-button") {
+  if (buttonPressed === "equal-button") {
     secondNumber = +displayNumContainer.slice(operatorIndex+1).join("");
     numberPanel.textContent = operate(firstNumber, secondNumber, displayNumContainer[operatorIndex]);
     console.log(operatorIndex);
   }
+
+  if(buttonPressed === "clear"){
+    displayNumContainer = [];
+    numberPanel.textContent = "";
+    firstNumber = null;
+    secondNumber = null;
+    operatorIndex = null;
+    operatorPressed = false;
+    panelFontSize = 50;
+    displayRestrainer();
+
+  } 
 });
 
 //display array updates here
@@ -42,8 +55,8 @@ function displayValue(array, e) {
 function displayRestrainer() {
   if (numberPanel.offsetWidth / displayPanel.offsetWidth >= 0.85) {
     panelFontSize -= 4;
-    numberPanel.style.fontSize = `${panelFontSize}px`;
   }
+  numberPanel.style.fontSize = `${panelFontSize}px`;
 }
 
 function operate(num1, num2, op) {
@@ -62,7 +75,7 @@ function operate(num1, num2, op) {
       result = divide(num1, num2);
       break;
   }
-  return result;
+  return Math.round(result*1000)/1000;
 }
 
 function add(a, b) {
