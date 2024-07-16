@@ -55,10 +55,10 @@ function operate(num1, num2, op) {
     case "-":
       result = sub(num1, num2);
       break;
-    case "*":
+    case "x":
       result = mult(num1, num2);
       break;
-    case "/":
+    case "÷":
       result = divide(num1, num2);
       break;
   }
