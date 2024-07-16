@@ -11,9 +11,8 @@ const numberPanel = document.querySelector(".number-panel");
 const buttonCont = document.querySelector(".button-container");
 const displayPanel = document.querySelector(".display");
 
-
-
 buttonCont.addEventListener("click", (e) => {
+  if(numberPanel.textContent === "bruh"){clearPanel()}
   let buttonPressed = e.target.className;
   if (buttonPressed === "number-button" || buttonPressed === "decimal-button") {
     displayValue(e);
@@ -35,13 +34,11 @@ buttonCont.addEventListener("click", (e) => {
         operable = false; //basically clean state = disables equalling teh result with lack of a second number and operator
         calculate();
         operatorIndex = displayNumContainer.length;
-
-        
       } else {
         operatorIndex = displayNumContainer.length;
       }
       firstNumber = +displayNumContainer.join("");
-        displayValue(e);
+      displayValue(e);
     }
   }
 
@@ -55,7 +52,12 @@ buttonCont.addEventListener("click", (e) => {
   }
 
   if (buttonPressed === "clear") {
-    displayNumContainer = [];
+    clearPanel();
+  }
+});
+
+function clearPanel(){
+  displayNumContainer = [];
     numberPanel.textContent = "";
     firstNumber = null;
     secondNumber = null;
@@ -64,13 +66,11 @@ buttonCont.addEventListener("click", (e) => {
     panelFontSize = 50;
     displayRestrainer();
     operable = false;
-  }
-});
+}
 
 //display array updates here
 function displayValue(e) {
-  
-  if (e.target.textContent !== "=") {
+  if (e.target.textContent !== "=" && displayNumContainer[0] !== "bruh") {
     displayNumContainer[displayNumContainer.length] = e.target.textContent;
   }
   numberPanel.textContent = displayNumContainer.join("");
@@ -86,7 +86,7 @@ function displayRestrainer() {
 
 function calculate() {
   secondNumber = +displayNumContainer.slice(operatorIndex + 1).join("");
-  
+
   let result = operate(
     firstNumber,
     secondNumber,
@@ -94,9 +94,9 @@ function calculate() {
   );
   displayNumContainer = [];
   displayNumContainer[0] = result;
-  console.log(displayNumContainer[0]);
-  console.log(displayNumContainer[operatorIndex]);
 }
+
+
 function operate(num1, num2, op) {
   let result;
   switch (op) {
@@ -110,7 +110,11 @@ function operate(num1, num2, op) {
       result = mult(num1, num2);
       break;
     case "÷":
-      result = divide(num1, num2);
+      if (num2 === 0) {
+        return "bruh";
+      } else {
+        result = divide(num1, num2);
+      }
       break;
   }
   return Math.round(result * 1000) / 1000;
