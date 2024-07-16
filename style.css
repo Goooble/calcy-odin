@@ -14,6 +14,7 @@ body {
     border-radius: 20px;
     padding: 20px;
     box-shadow: 5px 5px 1px 1px rgb(97, 91, 83);
+    border: 5px double rgb(139, 132, 121);
 }
 
 .display {
@@ -26,7 +27,8 @@ body {
     border-radius: 20px;
     margin:0px auto ;
     padding: 10px 15px;
-    box-shadow: 5px 5px 3px 2px rgb(0, 92, 61) inset;
+    box-shadow: 5px 5px  rgb(0, 92, 61) inset;
+    border: 2px double rgb(0, 92, 61);
 
 }
 
@@ -64,7 +66,8 @@ body {
     background-color: rgb(255, 150, 150);
     border-radius: 10%;
     padding-top: 8px;
-    box-shadow: 3px 3px 3px 2px rgb(110, 65, 65);
+    box-shadow: 3px 3px rgb(110, 65, 65);
+    border: 2px double rgb(110, 65, 65);
 }
 
 
@@ -85,7 +88,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 50px; 
-    height: 21%;
+    height: 22.5%;
     width: 22%;
     border-radius:10% ;
     line-height: 10%;
@@ -95,20 +98,24 @@ body {
 
 .operator-button {
     background-color: rgb(255, 150, 150);
-    box-shadow: 3px 3px 3px 2px rgb(110, 65, 65);
+    box-shadow: 3px 3px rgb(110, 65, 65);
+    border: 2px double rgb(110, 65, 65);
 }
 
 .number-button {
     background-color: rgb(160, 150, 255);
-    box-shadow: 3px 3px 3px 2px rgb(76, 71, 119);
+    box-shadow: 3px 3px rgb(76, 71, 119);
+    border: 2px double rgb(76, 71, 119);
 }
 
 .equal-button {
     background-color: rgb(43, 40, 68);
-    box-shadow: 3px 3px 3px 2px rgb(30, 28, 48);
+    box-shadow: 3px 3px rgb(30, 28, 48);
+    border: 2px double rgb(43, 40, 68);
     color: white;
 }
 .decimal-button{
     background-color: rgb(160, 150, 255);
-    box-shadow: 3px 3px 3px 2px rgb(76, 71, 119);
+    box-shadow: 3px 3px  rgb(76, 71, 119);
+    border: 2px double rgb(76, 71, 119);
 }
