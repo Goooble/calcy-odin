@@ -3,8 +3,9 @@ let secondNumber;
 let operator;
 let displayNumContainer = [];
 let panelFontSize = 50;
-const numberPanel = document.querySelector('.number-panel')
+const numberPanel = document.querySelector('.number-panel');
 const numberGrid = document.querySelector('.number-grid');
+const displayPanel = document.querySelector('.display');
 numberGrid.addEventListener('click', (e) => {
     if(e.target.className === 'number-button'){
   displayNumContainer[displayNumContainer.length] = e.target.textContent;
@@ -18,7 +19,7 @@ function displayValue(array){
 }
 
 function displayRestrainer(){
-  if(numberPanel.offsetWidth >= 230){
+  if(numberPanel.offsetWidth/displayPanel.offsetWidth >= 0.85){
     panelFontSize -= 4;
     numberPanel.style.fontSize =  `${(panelFontSize)}px`;
   }
