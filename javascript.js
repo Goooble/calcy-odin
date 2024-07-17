@@ -12,6 +12,7 @@ const operatorString = "÷x-=+";
 let latestValue;
 let operatorIndex;
 
+
 const numberPanel = document.querySelector(".number-panel");
 const mainButtonCont = document.querySelector(".number-grid");
 const displayPanel = document.querySelector(".display");
@@ -119,6 +120,7 @@ function updateSecondNum() {
 }
 
 function updateFirstNum() {
+  
   if (operatorIndex !== -1 && latestValue === numContainer[operatorIndex]) {
     firstNumber = +numContainer.slice(0, numContainer.length - 1).join("");
     console.log(`firstNumber: ${firstNumber}`);
@@ -163,13 +165,17 @@ function checkForZero() {
 function displayRestrainer() {
   let widthExceeded =
     numberPanel.offsetWidth / displayPanel.offsetWidth >= 0.85;
-  while (widthExceeded) {
+  if(!widthExceeded) {
+    numberPanel.style.fontSize = `50px`;//so that initially its 50px
+  }
+  else{
+    while (widthExceeded) {
     panelFontSize -= 1;
     numberPanel.style.fontSize = `${panelFontSize}px`;
+    widthExceeded = numberPanel.offsetWidth / displayPanel.offsetWidth >= 0.85;
+    }
   }
-  if (!widthExceeded) {
-    numberPanel.style.fontSize = `50px`;
-  }
+  panelFontSize = 50;
 }
 //math stuff
 function operate(num1, num2, op) {
