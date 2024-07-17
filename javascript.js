@@ -1,3 +1,7 @@
+//one function one job
+//find out the core loop where you can update values
+//for any repeated code(expressions or block of statements) create variables and functions
+//create visual clues to keep track of logic and stuff, like enabled and disabled
 let firstNumber;
 let secondNumber;
 let operator;
@@ -45,7 +49,7 @@ function enableOperator() {
 clearButton.addEventListener('click', clearPanel);
 
 mainButtonCont.addEventListener("click", (e) => {
-
+  checkForZero();
   let buttonPressed = e.target.className;
   switch (buttonPressed) {
     case "number-button":
@@ -131,7 +135,7 @@ function displayValue() {
   numberPanel.textContent = numContainer.join("");
   displayRestrainer();
 }
-
+//clear button 
 function clearPanel() {
   console.clear();
   numContainer = [];
@@ -152,15 +156,12 @@ function checkForZero() {
 }
 
 function displayRestrainer() {
+  
   if (numberPanel.offsetWidth / displayPanel.offsetWidth >= 0.85) {
     panelFontSize -= 4;
   }
   numberPanel.style.fontSize = `${panelFontSize}px`;
 }
-
-
-
-
 
 function operate(num1, num2, op) {
   let result;
