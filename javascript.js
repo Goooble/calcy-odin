@@ -18,6 +18,7 @@ let keyItem;
 const numberPanel = document.querySelector(".number-panel");
 const mainButtonCont = document.querySelector(".number-grid");
 const displayPanel = document.querySelector(".display");
+const subNumberPanel = document.querySelector(".sub-number-panel");
 
 const clearButton = document.querySelector(".clear");
 const backButton = document.querySelector(".back-remove");
@@ -87,6 +88,7 @@ backButton.addEventListener('click', backSpace);
 
 //using keys to simulate a click on teh buttons so that disabling still works
 document.addEventListener('keydown', (e) => {
+  checkForZero();
   console.log(e.key);
   switch(e.key){
     case "Enter":
@@ -120,6 +122,7 @@ document.addEventListener('keydown', (e) => {
 })
 mainButtonCont.addEventListener("click", buttonClick);
 function buttonClick(e){
+  
   checkForZero();
   let buttonPressed = e.target.className;
   let key = e.target.textContent;
@@ -208,6 +211,7 @@ function updateFirstNum() {
 //updates displayArray and calls operate function
 function calculate() {
   let result = operate(firstNumber, secondNumber, numContainer[operatorIndex]);
+  subNumberPanel.textContent = numContainer.join("");
   numContainer = [];
   numContainer = result.toString().split("");
 }
@@ -226,6 +230,7 @@ function clearPanel() {
   console.clear();
   numContainer = [];
   numberPanel.textContent = "";
+  subNumberPanel.textContent = "";
   firstNumber = null;
   secondNumber = null;
   panelFontSize = 50;
@@ -239,6 +244,10 @@ function backSpace(){
   numContainer.pop();
   displayValue();
   updateVariables();
+  if(numContainer[0] === "undefined"){
+    console.log("called")
+    subNumberPanel.textContent = "";
+  }
   console.log("back pressed");
 }
 //function to execute after bruh has been displayed
