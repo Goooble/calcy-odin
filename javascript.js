@@ -9,15 +9,17 @@ let latestValue;
 let operatorIndex;
 
 const numberPanel = document.querySelector(".number-panel");
-const buttonCont = document.querySelector(".button-container");
+const mainButtonCont = document.querySelector(".number-grid");
 const displayPanel = document.querySelector(".display");
 
+const clearButton = document.querySelector(".clear");
+const backButton = document.querySelector(".back-remove");
 const equalButton = document.querySelector(".equal-button");
 const numButton = Array.from(document.querySelectorAll(".number-button"));
 const opButtons = Array.from(document.querySelectorAll(".operator-button"));
 const decimalButton = document.querySelector(".decimal-button");
-//button enablers
 
+//button enablers
 disableOperator();
 disableEqual();
 
@@ -40,33 +42,31 @@ function enableOperator() {
   opButtons.forEach((btn) => (btn.disabled = false));
 }
 
-buttonCont.addEventListener("click", (e) => {
+clearButton.addEventListener('click', clearPanel);
+
+mainButtonCont.addEventListener("click", (e) => {
   let buttonPressed = e.target.className;
   switch (buttonPressed) {
     case "number-button":
-      updateArray(e);
-      displayValue();
       console.log("number pressed");
       break;
     case "operator-button":
-      updateArray(e);
-      displayValue();
+      
       console.log("operator pressed");
       break;
     case "equal-button":
-      console.log("equal pressed");
-      break;
 
-    case "clear":
-      clearPanel();
+      console.log("equal pressed");
       break;
     case "decimal-button":
       break;
   }
+  updateArray(e);
   operatorIndex= numContainer.findIndex((item) => operatorString.includes(item) === true);
   toggleButtons();
   updateFirstNum();
   updateSecondNum();
+  displayValue();
   
 });
 
@@ -92,8 +92,11 @@ console.log(`latestValue: ${latestValue}`);
 console.log( `operator index: ${operatorIndex}`)
 }
 
+//number updates
 function updateSecondNum() {
-  //secondNumber = +numContainer.slice(numContainer.findIndex((item) => operatorString.includes(item) === true))
+  if(operatorIndex !== -1)
+  {secondNumber = +numContainer.slice(operatorIndex+1).join("");}
+  console.log(`second number: ${secondNumber}`);
 }
 
 function updateFirstNum() {
@@ -115,6 +118,7 @@ function displayValue(e) {
 }
 
 function clearPanel() {
+  console.clear();
   numContainer = [];
   numberPanel.textContent = "";
   firstNumber = null;
