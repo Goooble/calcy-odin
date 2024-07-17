@@ -45,28 +45,32 @@ function enableOperator() {
 clearButton.addEventListener('click', clearPanel);
 
 mainButtonCont.addEventListener("click", (e) => {
+
   let buttonPressed = e.target.className;
   switch (buttonPressed) {
     case "number-button":
+      updateArray(e);
+      displayValue();
       console.log("number pressed");
       break;
     case "operator-button":
-      
+      updateArray(e);
+      displayValue();
       console.log("operator pressed");
       break;
     case "equal-button":
-
+      
       console.log("equal pressed");
       break;
     case "decimal-button":
       break;
   }
-  updateArray(e);
+  
   operatorIndex= numContainer.findIndex((item) => operatorString.includes(item) === true);
   toggleButtons();
   updateFirstNum();
   updateSecondNum();
-  displayValue();
+  
   
 });
 
