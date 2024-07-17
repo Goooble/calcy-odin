@@ -76,6 +76,10 @@ mainButtonCont.addEventListener("click", (e) => {
       calculate();
       displayValue();
       break;
+    case "decimal-button":
+    console.log("decimal pressed");
+    updateArray(e);
+    displayValue();
   }
   //keep updating these variables after every click
 
@@ -92,6 +96,7 @@ mainButtonCont.addEventListener("click", (e) => {
 //to enable and disable these buttons when they shoudnt be working
 function toggleButtons() {
   latestValue = numContainer[numContainer.length - 1]; //to find if a number, equal, decimal or operator was pressed last
+
   //operators
   if (numString.includes(latestValue)) {
     enableOperator();
@@ -106,7 +111,21 @@ function toggleButtons() {
   }
 
   //decimal
+  if(operatorIndex === -1)
+  {
+    if(numContainer.findIndex(item => item === ".") !== -1){
+      disableDecimal();
+    }
+    else{enableDecimal();}
+  }
+  else{
+    if(numContainer.findIndex(item => item === ".") > operatorIndex || numContainer.findLastIndex(item => item === ".") > operatorIndex){
+      disableDecimal();
 
+    }
+    else{enableDecimal();}
+
+  }
   console.log(`latestValue: ${latestValue}`);
   console.log(`operator index: ${operatorIndex}`);
 }
@@ -152,6 +171,7 @@ function clearPanel() {
   panelFontSize = 50;
   displayRestrainer();
 
+  enableDecimal();
   disableOperator();
   disableEqual();
 }
