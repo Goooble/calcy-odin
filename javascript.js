@@ -53,16 +53,22 @@ mainButtonCont.addEventListener("click", (e) => {
       displayValue();
       console.log("number pressed");
       break;
-    case "operator-button":
+    
+      case "operator-button":
       updateArray(e);
       displayValue();
+      if(operatorIndex !== -1 ){
+        calculate();
+        updateArray(e);
+        displayValue();
+      }
       console.log("operator pressed");
       break;
-    case "equal-button":
-      
+    
+      case "equal-button":
       console.log("equal pressed");
-      break;
-    case "decimal-button":
+      calculate();
+      displayValue();
       break;
   }
   
@@ -70,21 +76,19 @@ mainButtonCont.addEventListener("click", (e) => {
   toggleButtons();
   updateFirstNum();
   updateSecondNum();
-  
-  
 });
 
 function toggleButtons() {
   latestValue = numContainer[numContainer.length - 1]; //to find if a number, equal, decimal or operator was pressed last
   //operators
-  if (numString.includes(latestValue)) {
+  if (numString.includes(latestValue.slice(0,1))) {
     enableOperator();
   } else {
     disableOperator();
   }
   //equal
   if (
-    numString.includes(latestValue) &&
+    numString.includes(latestValue.slice(0,1)) &&
     operatorIndex !==-1) {
     enableEqual();
   } else {
@@ -92,6 +96,7 @@ function toggleButtons() {
   }
 
 //decimal
+
 console.log(`latestValue: ${latestValue}`);
 console.log( `operator index: ${operatorIndex}`)
 }
@@ -111,12 +116,18 @@ function updateFirstNum() {
 }
 }
 
+function calculate() {
+  let result = operate(firstNumber, secondNumber, numContainer[operatorIndex]);
+  numContainer = [];
+  numContainer[0] = result.toString();
+}
+
 //display array is updated
 function updateArray(e) {
   numContainer.push(e.target.textContent);
 }
 //display array is displayed
-function displayValue(e) {
+function displayValue() {
   numberPanel.textContent = numContainer.join("");
   displayRestrainer();
 }
@@ -149,13 +160,7 @@ function displayRestrainer() {
 
 
 
-function calculate() {
-  secondNumber = +numContainer.slice(operatorIndex + 1).join("");
 
-  let result = operate(firstNumber, secondNumber, numContainer[operatorIndex]);
-  numContainer = [];
-  numContainer[0] = result;
-}
 
 function operate(num1, num2, op) {
   let result;
