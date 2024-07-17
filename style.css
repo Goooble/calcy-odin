@@ -115,3 +115,11 @@ body {
     box-shadow: 3px 3px  rgb(76, 71, 119);
     border: 2px double rgb(76, 71, 119);
 }
+
+button:disabled {
+    color:grey;
+}
+
+.equal-button:disabled{
+    color: grey;
+}

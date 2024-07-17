@@ -2,99 +2,134 @@ let firstNumber;
 let secondNumber;
 let operator;
 let panelFontSize = 50;
-let displayNumContainer = [];
-let operatorPressed = -1; //initially not allowed
+let numContainer = [];
+const numString = "1234567890";
+const operatorString = "÷x-=+";
+let latestValue;
 let operatorIndex;
-let operable = false;
-let decimalPressed = false;
-let equalPressed = false;
 
 const numberPanel = document.querySelector(".number-panel");
 const buttonCont = document.querySelector(".button-container");
 const displayPanel = document.querySelector(".display");
 
+const equalButton = document.querySelector(".equal-button");
+const numButton = Array.from(document.querySelectorAll(".number-button"));
+const opButtons = Array.from(document.querySelectorAll(".operator-button"));
+const decimalButton = document.querySelector(".decimal-button");
+//button enablers
+
+disableOperator();
+disableEqual();
+
+function disableDecimal() {
+  decimalButton.disabled = true;
+}
+function enableDecimal() {
+  decimalButton.disabled = false;
+}
+function disableEqual() {
+  equalButton.disabled = true;
+}
+function enableEqual() {
+  equalButton.disabled = false;
+}
+function disableOperator() {
+  opButtons.forEach((btn) => (btn.disabled = true));
+}
+function enableOperator() {
+  opButtons.forEach((btn) => (btn.disabled = false));
+}
+
 buttonCont.addEventListener("click", (e) => {
-  if (numberPanel.textContent === "bruh") {
-    clearPanel();
-  }
   let buttonPressed = e.target.className;
   switch (buttonPressed) {
     case "number-button":
-      if (equalPressed === false) {
-        displayValue(e);
-        if (operatorPressed === true) {
-          //after a digit of second number is pressed
-          operable = true;
-        }
-        operatorPressed = false;
-      }
+      updateArray(e);
+      displayValue();
+      console.log("number pressed");
       break;
-    case "operator-button": //once an operator is pressed, first number is stored and value is displayed
-      if (operatorPressed === false) {
-        equalPressed = false;
-        operatorPressed = true;
-        decimalPressed = false;
-        //only pressed after one number and two numbers(calculates)
-        if (operable === true) {
-          //if its after two numbers, it calculates
-          operable = false; //basically clean state = disables equalling teh result with lack of a second number and operator
-          calculate();
-          operatorIndex = displayNumContainer.length;
-        } else {
-          operatorIndex = displayNumContainer.length;
-        }
-        firstNumber = +displayNumContainer.join("");
-        displayValue(e);
-      }
+    case "operator-button":
+      updateArray(e);
+      displayValue();
+      console.log("operator pressed");
       break;
     case "equal-button":
-      if (operable) {
-        calculate();
-        operable = false; //basically clean state = disables equalling teh result with lack of a second number and operator
-        operatorPressed = false;
-        displayValue(e);
-        equalPressed = true;
-      }
+      console.log("equal pressed");
       break;
 
     case "clear":
       clearPanel();
       break;
     case "decimal-button":
-      if (decimalPressed === false) {
-        decimalPressed = true;
-        displayValue(e);
-        if (operatorPressed === true) {
-          //after a digit of second number is pressed
-          operable = true;
-        }
-        operatorPressed = false;
-      }
       break;
   }
+  operatorIndex= numContainer.findIndex((item) => operatorString.includes(item) === true);
+  toggleButtons();
+  updateFirstNum();
+  updateSecondNum();
+  
 });
 
+function toggleButtons() {
+  latestValue = numContainer[numContainer.length - 1]; //to find if a number, equal, decimal or operator was pressed last
+  //operators
+  if (numString.includes(latestValue)) {
+    enableOperator();
+  } else {
+    disableOperator();
+  }
+  //equal
+  if (
+    numString.includes(latestValue) &&
+    operatorIndex !==-1) {
+    enableEqual();
+  } else {
+    disableEqual();
+  }
+
+//decimal
+console.log(`latestValue: ${latestValue}`);
+console.log( `operator index: ${operatorIndex}`)
+}
+
+function updateSecondNum() {
+  //secondNumber = +numContainer.slice(numContainer.findIndex((item) => operatorString.includes(item) === true))
+}
+
+function updateFirstNum() {
+  if (operatorIndex !==-1 && latestValue === numContainer[operatorIndex]) {
+  
+  firstNumber = +numContainer.slice(0, numContainer.length - 1).join("");
+  console.log(`firstNumber: ${firstNumber}`);
+}
+}
+
+//display array is updated
+function updateArray(e) {
+  numContainer.push(e.target.textContent);
+}
+//display array is displayed
+function displayValue(e) {
+  numberPanel.textContent = numContainer.join("");
+  displayRestrainer();
+}
+
 function clearPanel() {
-  displayNumContainer = [];
+  numContainer = [];
   numberPanel.textContent = "";
   firstNumber = null;
   secondNumber = null;
-  operatorIndex = null;
-  operatorPressed = -1;
   panelFontSize = 50;
   displayRestrainer();
-  operable = false;
-  decimalPressed = false;
-  equalPressed = false;
+
+  disableOperator();
+  disableEqual();
 }
 
-//display array updates here
-function displayValue(e) {
-  if (e.target.textContent !== "=" && displayNumContainer[0] !== "bruh") {
-    displayNumContainer[displayNumContainer.length] = e.target.textContent;
+function checkForZero() {
+  if (numberPanel.textContent === "bruh") {
+    clearPanel();
   }
-  numberPanel.textContent = displayNumContainer.join("");
-  displayRestrainer();
 }
 
 function displayRestrainer() {
@@ -104,16 +139,14 @@ function displayRestrainer() {
   numberPanel.style.fontSize = `${panelFontSize}px`;
 }
 
-function calculate() {
-  secondNumber = +displayNumContainer.slice(operatorIndex + 1).join("");
 
-  let result = operate(
-    firstNumber,
-    secondNumber,
-    displayNumContainer[operatorIndex]
-  );
-  displayNumContainer = [];
-  displayNumContainer[0] = result;
+
+function calculate() {
+  secondNumber = +numContainer.slice(operatorIndex + 1).join("");
+
+  let result = operate(firstNumber, secondNumber, numContainer[operatorIndex]);
+  numContainer = [];
+  numContainer[0] = result;
 }
 
 function operate(num1, num2, op) {
