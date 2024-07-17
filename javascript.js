@@ -11,6 +11,8 @@ const numString = "1234567890";
 const operatorString = "÷x-=+";
 let latestValue;
 let operatorIndex;
+let buttonEntered;
+let keyItem;
 
 
 const numberPanel = document.querySelector(".number-panel");
@@ -23,18 +25,13 @@ const equalButton = document.querySelector(".equal-button");
 const numButton = Array.from(document.querySelectorAll(".number-button"));
 const opButtons = Array.from(document.querySelectorAll(".operator-button"));
 const decimalButton = document.querySelector(".decimal-button");
-const minusButton = document.querySelector(".minus-button");
+const allKeys = Array.from(document.querySelectorAll(".number-grid button"));
 
-//button enablers
+//initial state
 disableOperator();
 disableEqual();
 
-function disableMinus() {
-  minusButton.disabled = true;
-}
-function enableMinus() {
-  minusButton.disabled = false;
-}
+
 function disableDecimal() {
   decimalButton.disabled = true;
 }
@@ -54,46 +51,95 @@ function enableOperator() {
   opButtons.forEach((btn) => (btn.disabled = false));
 }
 
-//point of change where everything majorly kicks off at
-clearButton.addEventListener("click", clearPanel);
-backButton.addEventListener('click', () => {
-  numContainer.pop();
+
+function numberPress(item){
+  updateArray(item);
+  displayValue();
+  console.log("number pressed");
+  updateVariables();
+}
+
+function operatorPress(item){
+  if (operatorIndex !== -1) {
+    calculate();
+    
+  }
+  updateArray(item);
   displayValue();
   updateVariables();
-  console.log("back pressed");
+  console.log("operator pressed");
+}
+function equalPress(){
+  console.log("equal pressed");
+  calculate();
+  displayValue();
+  updateVariables();
+}
+function decimalPress(item){
+  console.log("decimal pressed");
+    updateArray(item);
+    displayValue();
+    updateVariables();
+}
+
+clearButton.addEventListener("click", clearPanel);
+backButton.addEventListener('click', backSpace);
+
+//using keys to simulate a click on teh buttons so that disabling still works
+document.addEventListener('keydown', (e) => {
+  console.log(e.key);
+  switch(e.key){
+    case "Enter":
+      keyItem = "=";
+      break;
+    case "/":
+      keyItem = "÷";
+      break;
+    case "*":
+      keyItem = "x";
+      break;
+    default: keyItem = e.key; 
+  }
+  
+  
+  allKeys.forEach((buttons) => {
+    if(buttons.textContent === keyItem){
+      buttonEntered = buttons;
+      console.log(buttonEntered);
+    }
+  })
+  buttonEntered.click();
+
+  if(keyItem === "Backspace"){
+    backSpace();
+  }
+  if(keyItem === "Delete"){
+    clearPanel();
+  }
+
 })
-mainButtonCont.addEventListener("click", (e) => {
+mainButtonCont.addEventListener("click", buttonClick);
+function buttonClick(e){
   checkForZero();
   let buttonPressed = e.target.className;
+  let key = e.target.textContent;
   switch (buttonPressed) {
     case "number-button":
-      updateArray(e);
-      displayValue();
-      console.log("number pressed");
+      numberPress(key);
       break;
 
     case "operator-button":
-      if (operatorIndex !== -1) {
-        calculate();
-      }
-      updateArray(e);
-      displayValue();
-      console.log("operator pressed");
+      operatorPress(key);
       break;
 
     case "equal-button":
-      console.log("equal pressed");
-      calculate();
-      displayValue();
+      equalPress();
       break;
     case "decimal-button":
-    console.log("decimal pressed");
-    updateArray(e);
-    displayValue();
+    decimalPress(key);
   }
   //keep updating these variables after every click
-  updateVariables();
-});
+}
 
 function updateVariables(){
   operatorIndex = numContainer.findIndex((item, index, array) => {
@@ -167,8 +213,8 @@ function calculate() {
 }
 
 //display array is updated that also acts as a basis for toggling and where first num and second num are extracted from
-function updateArray(e) {
-  numContainer.push(e.target.textContent);
+function updateArray(text) {
+  numContainer.push(text);
 }
 //display array is displayed
 function displayValue() {
@@ -188,6 +234,12 @@ function clearPanel() {
   enableDecimal();
   disableOperator();
   disableEqual();
+}
+function backSpace(){
+  numContainer.pop();
+  displayValue();
+  updateVariables();
+  console.log("back pressed");
 }
 //function to execute after bruh has been displayed
 function checkForZero() {
