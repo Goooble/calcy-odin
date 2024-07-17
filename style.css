@@ -123,3 +123,7 @@ button:disabled {
 .equal-button:disabled{
     color: grey;
 }
+
+.button-container button:hover {
+    text-shadow: 5px 5px 20px #faebd7, -5px -5px 20px antiquewhite;
+}
