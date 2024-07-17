@@ -23,11 +23,18 @@ const equalButton = document.querySelector(".equal-button");
 const numButton = Array.from(document.querySelectorAll(".number-button"));
 const opButtons = Array.from(document.querySelectorAll(".operator-button"));
 const decimalButton = document.querySelector(".decimal-button");
+const minusButton = document.querySelector(".minus-button");
 
 //button enablers
 disableOperator();
 disableEqual();
 
+function disableMinus() {
+  minusButton.disabled = true;
+}
+function enableMinus() {
+  minusButton.disabled = false;
+}
 function disableDecimal() {
   decimalButton.disabled = true;
 }
@@ -49,7 +56,12 @@ function enableOperator() {
 
 //point of change where everything majorly kicks off at
 clearButton.addEventListener("click", clearPanel);
-
+backButton.addEventListener('click', () => {
+  numContainer.pop();
+  displayValue();
+  updateVariables();
+  console.log("back pressed");
+})
 mainButtonCont.addEventListener("click", (e) => {
   checkForZero();
   let buttonPressed = e.target.className;
@@ -61,13 +73,11 @@ mainButtonCont.addEventListener("click", (e) => {
       break;
 
     case "operator-button":
-      updateArray(e);
-      displayValue();
       if (operatorIndex !== -1) {
         calculate();
-        updateArray(e);
-        displayValue();
       }
+      updateArray(e);
+      displayValue();
       console.log("operator pressed");
       break;
 
@@ -82,7 +92,10 @@ mainButtonCont.addEventListener("click", (e) => {
     displayValue();
   }
   //keep updating these variables after every click
+  updateVariables();
+});
 
+function updateVariables(){
   operatorIndex = numContainer.findIndex((item, index, array) => {
     if (index !== 0) {
       return operatorString.includes(item) === true;
@@ -92,7 +105,7 @@ mainButtonCont.addEventListener("click", (e) => {
   updateFirstNum();
   updateSecondNum();
   console.log("-------------------");
-});
+}
 //to enable and disable these buttons when they shoudnt be working
 function toggleButtons() {
   latestValue = numContainer[numContainer.length - 1]; //to find if a number, equal, decimal or operator was pressed last
@@ -134,8 +147,9 @@ function toggleButtons() {
 function updateSecondNum() {
   if (operatorIndex !== -1) {
     secondNumber = +numContainer.slice(operatorIndex + 1).join("");
+    console.log(`second number: ${secondNumber}`);
   }
-  console.log(`second number: ${secondNumber}`);
+  
 }
 
 function updateFirstNum() {
