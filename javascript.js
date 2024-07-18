@@ -53,6 +53,9 @@ function enableOperator() {
 }
 
 
+
+
+
 function numberPress(item){
   updateArray(item);
   displayValue();
@@ -111,6 +114,7 @@ document.addEventListener('keydown', (e) => {
     }
   })
   buttonEntered.click();
+  
 
   if(keyItem === "Backspace"){
     backSpace();
