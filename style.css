@@ -30,7 +30,10 @@ body {
     padding: 10px 15px;
     box-shadow: 5px 5px  rgb(0, 92, 61) inset;
     border: 2px double rgb(0, 92, 61);
-
+}
+.number-panel::selection{
+    text-decoration: underline;
+    text-decoration-color: rgb(165, 155, 142); 
 }
 
 .sub-number-panel{
@@ -131,5 +134,9 @@ button:disabled {
 }
 
 .button-container button:hover {
-    text-shadow: 5px 5px 20px #faebd7, -5px -5px 20px antiquewhite;
+    cursor:grab;
+}
+
+.button-container button:active{
+    box-shadow:0px 0px;
 }
